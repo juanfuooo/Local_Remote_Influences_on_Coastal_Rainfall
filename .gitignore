@@ -21,6 +21,7 @@ $RECYCLE.BIN/
 
 # NC files
 *.nc
+*.nc4
 
 # Visual Studio files
 .vs/
