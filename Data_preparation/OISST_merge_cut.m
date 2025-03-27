@@ -27,12 +27,12 @@ lon = ncread("oisst-avhrr-v02r01_1998.nc", "lon");
 %%
 northeast_sst = [];
 
-lat_cut = ncread("C:\Users\lv299\OneDrive\A_Melbourne-Uni\A_Weather_for_21st_Century_RA_Internship\Local_Remote_Influences_on_Coastal_Rainfall\Data_preparation\OISST\oisst-avhrr-v02r01_1998.nc", 'lat', 240, 82);
-lon_cut = ncread("C:\Users\lv299\OneDrive\A_Melbourne-Uni\A_Weather_for_21st_Century_RA_Internship\Local_Remote_Influences_on_Coastal_Rainfall\Data_preparation\OISST\oisst-avhrr-v02r01_1998.nc", 'lon', 560, 82);
-
+lat_cut = ncread("C:\Users\lv299\OneDrive\A_Melbourne-Uni\A_Weather_for_21st_Century_RA_Internship\Local_Remote_Influences_on_Coastal_Rainfall\Data_preparation\OISST\oisst-avhrr-v02r01_1998.nc", 'lat', 200, 122);
+lon_cut = ncread("C:\Users\lv299\OneDrive\A_Melbourne-Uni\A_Weather_for_21st_Century_RA_Internship\Local_Remote_Influences_on_Coastal_Rainfall\Data_preparation\OISST\oisst-avhrr-v02r01_1998.nc", 'lon', 560, 122);
+%%
 for i = 1:22
     fileDir = append(fileList(i).folder,"\" ,fileList(i).name)
-    northeast_sst = cat(4, northeast_sst, ncread(fileDir, 'sst', [560,240,1,1],[82,82,1,Inf])) ;
+    northeast_sst = cat(4, northeast_sst, ncread(fileDir, 'sst', [560,200,1,1],[122,122,1,Inf]));
     disp(i)
 end
 
@@ -45,14 +45,15 @@ time = linspace(1,8035,8035);
 
 %%
 file_output = "northeast_sst.nc";
-nccreate(file_output, 'sst', 'Dimensions',{'lon' 82 'lat' 82 'time' 8035});
-nccreate(file_output, 'lat', 'Dimensions', {'lat' 82});
-nccreate(file_output, 'lon', 'Dimensions',{'lon', 82});
+nccreate(file_output, 'sst', 'Dimensions',{'lon' 122 'lat' 122 'time' 8035});
+nccreate(file_output, 'lat', 'Dimensions', {'lat' 122});
+nccreate(file_output, 'lon', 'Dimensions',{'lon', 122});
 nccreate(file_output, 'time', 'Dimensions',{'time' 8035});
 
 ncwrite(file_output, 'lat', lat_cut);
 ncwrite(file_output, 'lon', lon_cut);
 ncwrite(file_output, 'time', time);
 ncwrite(file_output, 'sst', northeast_sst);
+
 
 

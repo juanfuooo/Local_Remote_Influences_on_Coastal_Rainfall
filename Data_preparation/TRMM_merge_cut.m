@@ -50,3 +50,39 @@ end
 % Get sorted list of years
 years = cell2mat(keys(filesByYear));
 years = sort(years);
+
+
+%%
+lat = ncread("3B42_Daily.19980101.7.nc4", "lat");
+lon = ncread("3B42_Daily.19980101.7.nc4", "lon");
+
+northeast_sst = [];
+
+lat_cut = ncread("3B42_Daily.19980101.7.nc4", 'lat', 40, 122);
+lon_cut = ncread("3B42_Daily.19980101.7.nc4", 'lon', 1280, 122);
+
+%%
+northeast_precip = zeros(122,122, 8034);
+time = linspace(1,8034,8034);
+for i = 1:8034
+    precip = ncread(fileList(i).name, 'precipitation', [40,1280], [122,122]);
+    precip_3d = reshape(precip, 122,122,1);
+    northeast_precip(:,:, i) = precip_3d;
+    disp(i)
+end
+
+%%
+
+file_output = "northeast_precip.nc";
+nccreate(file_output, 'precip', 'Dimensions',{'lon' 122 'lat' 122 'time' 8034});
+nccreate(file_output, 'lat', 'Dimensions', {'lat' 122});
+nccreate(file_output, 'lon', 'Dimensions',{'lon', 122});
+nccreate(file_output, 'time', 'Dimensions',{'time' 8034});
+
+ncwrite(file_output, 'lat', lat_cut);
+ncwrite(file_output, 'lon', lon_cut);
+ncwrite(file_output, 'time', time);
+ncwrite(file_output, 'precip', northeast_precip);
+
+
+
