@@ -66,8 +66,7 @@ northeast_precip = zeros(122,122, 8034);
 time = linspace(1,8034,8034);
 for i = 1:8034
     precip = ncread(fileList(i).name, 'precipitation', [40,1280], [122,122]);
-    precip_3d = reshape(precip, 122,122,1);
-    northeast_precip(:,:, i) = precip_3d;
+    northeast_precip(:,:, i) = precip;
     disp(i)
 end
 
